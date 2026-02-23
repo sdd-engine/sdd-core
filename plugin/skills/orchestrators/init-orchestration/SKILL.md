@@ -165,7 +165,7 @@ Check the project's `.claude/settings.json` for required entries:
     "sdd": {
       "source": {
         "source": "github",
-        "repo": "LiorCohen/sdd"
+        "repo": "sdd-engine/sdd-core"
       }
     }
   },

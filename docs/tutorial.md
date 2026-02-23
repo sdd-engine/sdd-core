@@ -18,7 +18,7 @@ A restaurant management system with:
 1. **Claude Code CLI** installed and authenticated
 2. **SDD Plugin** installed:
    ```bash
-   claude mcp add-plugin "https://raw.githubusercontent.com/LiorCohen/sdd/main/.claude-plugin/marketplace.json"
+   claude mcp add-plugin "https://raw.githubusercontent.com/sdd-engine/sdd-core/main/.claude-plugin/marketplace.json"
    ```
 3. **Node.js 20+** and **npm**
 4. **Docker** (for PostgreSQL)
@@ -277,7 +277,7 @@ git checkout main && git merge feature/your-feature
 
 Install the SDD plugin:
 ```bash
-claude mcp add-plugin "https://raw.githubusercontent.com/LiorCohen/sdd/main/.claude-plugin/marketplace.json"
+claude mcp add-plugin "https://raw.githubusercontent.com/sdd-engine/sdd-core/main/.claude-plugin/marketplace.json"
 ```
 
 ### "Database connection refused"

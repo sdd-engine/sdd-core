@@ -113,7 +113,7 @@ npm run dev -- <command>
 ## Architecture
 
 ```
-plugin/core/system/
+plugin/system/
 ├── src/                    # TypeScript source
 │   ├── cli.ts              # Main entry point
 │   ├── commands/           # Command handlers by namespace

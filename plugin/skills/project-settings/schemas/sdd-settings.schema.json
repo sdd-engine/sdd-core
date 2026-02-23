@@ -3,7 +3,7 @@
   "title": "SDD Settings",
   "description": "Schema for sdd/sdd-settings.yaml — the project configuration file. Component-type-specific settings validation is delegated to tech packs.",
   "type": "object",
-  "required": ["sdd", "project", "components"],
+  "required": ["sdd", "project"],
   "additionalProperties": false,
   "properties": {
     "system": {
@@ -76,37 +76,78 @@
         }
       }
     },
+    "techpacks": {
+      "type": "object",
+      "description": "Registered tech packs, keyed by namespace.",
+      "additionalProperties": {
+        "$ref": "#/$defs/techpack_entry"
+      }
+    },
     "components": {
-      "type": "array",
-      "description": "List of project components. Component types and their settings schemas are defined by the active tech pack.",
-      "items": {
-        "$ref": "#/$defs/component"
+      "type": "object",
+      "description": "Project components, keyed by name. Each references a techpack namespace.",
+      "additionalProperties": {
+        "$ref": "#/$defs/component_manifest"
       }
     }
   },
   "$defs": {
-    "component_name": {
-      "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*[a-z0-9]$",
-      "description": "Lowercase, hyphens only. Should be multi-word and domain-specific (e.g., auth-service, user-store)."
-    },
-    "component": {
+    "techpack_entry": {
       "type": "object",
-      "required": ["name", "type", "path", "settings"],
+      "required": ["name", "namespace", "version", "mode"],
       "additionalProperties": false,
       "properties": {
-        "name": { "$ref": "#/$defs/component_name" },
+        "name": {
+          "type": "string",
+          "description": "Tech pack display name."
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Short namespace identifier."
+        },
+        "version": {
+          "type": "string",
+          "description": "Tech pack version."
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["internal", "external", "git"],
+          "description": "How the tech pack is resolved."
+        },
+        "path": {
+          "type": "string",
+          "description": "Path for internal/external mode."
+        },
+        "repo": {
+          "type": "string",
+          "description": "Git clone URL (git mode only)."
+        },
+        "ref": {
+          "type": "string",
+          "description": "Git ref to checkout (git mode only)."
+        },
+        "install_path": {
+          "type": "string",
+          "description": "Path relative to project root (git mode only)."
+        }
+      }
+    },
+    "component_manifest": {
+      "type": "object",
+      "required": ["type", "techpack", "directory"],
+      "additionalProperties": false,
+      "properties": {
         "type": {
           "type": "string",
           "description": "Component type as defined by the active tech pack."
         },
-        "path": {
+        "techpack": {
           "type": "string",
-          "description": "Relative path from project root (e.g., 'components/my-component')"
+          "description": "Namespace of the tech pack that owns this component."
         },
-        "settings": {
-          "type": "object",
-          "description": "Component settings. Schema is defined by the tech pack for each component type."
+        "directory": {
+          "type": "string",
+          "description": "Relative path from project root (e.g., 'components/servers/my-api')."
         }
       }
     }
