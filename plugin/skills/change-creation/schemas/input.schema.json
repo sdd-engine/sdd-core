@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Change Creation Input",
+  "description": "Input parameters for creating a new change (feature, bugfix, refactor, or epic) in the SDD workflow.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Directory name for the change (lowercase, hyphens, no spaces)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "feature",
+        "bugfix",
+        "refactor",
+        "epic"
+      ],
+      "description": "Type of change being created"
+    },
+    "title": {
+      "type": "string",
+      "description": "Display title for the change"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the change (1-2 sentences)"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Primary business domain for the change"
+    },
+    "issue": {
+      "type": "string",
+      "description": "Issue reference (e.g., PROJ-123)"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "spec-only",
+        "full"
+      ],
+      "default": "full",
+      "description": "Processing mode: spec-only creates only SPEC.md, full creates both SPEC.md and PLAN.md"
+    },
+    "workflow_id": {
+      "type": "string",
+      "description": "Workflow ID for change-id assignment (directory format: <id>-<name>)"
+    },
+    "change_id": {
+      "type": "string",
+      "description": "Pre-assigned change ID from workflow-state (format: <name>-<seq>, e.g. user-auth-1)"
+    },
+    "source_content": {
+      "type": "string",
+      "description": "Full markdown content to embed in Original Requirements section"
+    },
+    "decomposition_id": {
+      "type": "string",
+      "description": "UUID linking related changes from a decomposition"
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Prerequisite change names that must be completed first"
+    },
+    "affected_components": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Component names from sdd-settings.yaml affected by this change"
+    },
+    "child_changes": {
+      "type": "array",
+      "description": "Child change definitions for epic type changes",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Child change directory name"
+          },
+          "title": {
+            "type": "string",
+            "description": "Child change display title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Brief description of the child change"
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Names of other child changes this one depends on"
+          }
+        }
+      }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Epic-level acceptance criteria (for epic type changes)"
+    },
+    "cross_cutting_concerns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Cross-cutting concerns spanning multiple child changes (for epic type changes)"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "title",
+    "description",
+    "domain"
+  ]
+}

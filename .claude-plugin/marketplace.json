@@ -1,0 +1,14 @@
+{
+  "name": "sdd-core",
+  "owner": {
+    "name": "sdd-engine"
+  },
+  "plugins": [
+    {
+      "name": "sdd-core",
+      "source": "./plugin",
+      "description": "SDD core methodology for Claude Code — tech-agnostic commands, lifecycle orchestration, and spec-driven workflows",
+      "version": "0.1.0"
+    }
+  ]
+}

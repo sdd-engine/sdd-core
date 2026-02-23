@@ -1,0 +1,16 @@
+{
+  "name": "sdd-core",
+  "version": "0.1.0",
+  "description": "SDD core methodology — tech-agnostic commands, skills, and lifecycle orchestration",
+  "author": {
+    "name": "sdd-engine"
+  },
+  "commands": [
+    "./commands/sdd.md",
+    "./commands/sdd-run.md",
+    "./commands/sdd-help.md"
+  ],
+  "skills": [
+    "./skills/"
+  ]
+}

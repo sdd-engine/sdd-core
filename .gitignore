@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Dependencies
+**/node_modules/
+
+# Build output
+plugin/system/dist/
+
+# Claude temp files
+.temp/
+
+# System logs
+sdd/system-logs/
+
+# Release artifacts
+release/

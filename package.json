@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "workspaces": ["plugin/system"],
+  "scripts": {
+    "build": "npm run build -w @sdd/core-system",
+    "typecheck": "npm run typecheck -w @sdd/core-system",
+    "logs": "bash -c 'LOG_DIR=\"sdd/system-logs\"; if [ ! -d \"$LOG_DIR\" ]; then echo \"No logs found.\"; exit 0; fi; LATEST=$(ls -t \"$LOG_DIR\"/*.log 2>/dev/null | head -n1); if [ -z \"$LATEST\" ]; then echo \"No log files found in $LOG_DIR\"; exit 0; fi; echo \"Tailing: $LATEST\"; tail -f \"$LATEST\" | npx pino-pretty'"
+  }
+}

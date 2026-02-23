@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sdd.dev/schemas/sdd-settings.json",
+  "title": "SDD Project Settings",
+  "description": "Core-owned per-project configuration.",
+  "type": "object",
+  "required": ["sdd", "project"],
+  "additionalProperties": false,
+  "properties": {
+    "sdd": {
+      "type": "object",
+      "required": ["version"],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" }
+      }
+    },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z][a-z0-9-]+$" }
+      }
+    },
+    "techpacks": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/techpack_entry"
+      }
+    },
+    "components": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/component_manifest"
+      }
+    }
+  },
+  "$defs": {
+    "techpack_entry": {
+      "type": "object",
+      "required": ["name", "namespace", "version", "mode"],
+      "additionalProperties": false,
+      "properties": {
+        "name":         { "type": "string" },
+        "namespace":    { "type": "string" },
+        "version":      { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "mode":         { "type": "string", "enum": ["internal", "external", "git"] },
+        "path":         { "type": "string", "description": "Relative to plugin root if internal, absolute if external" },
+        "repo":         { "type": "string", "description": "Git clone URL (mode: git only)" },
+        "ref":          { "type": "string", "description": "Git ref to checkout (mode: git only)" },
+        "install_path": { "type": "string", "description": "Path relative to project root (mode: git only)" }
+      }
+    },
+    "component_manifest": {
+      "type": "object",
+      "required": ["type", "techpack", "directory"],
+      "additionalProperties": false,
+      "properties": {
+        "type":      { "type": "string" },
+        "techpack":  { "type": "string", "description": "Namespace of the tech pack this component belongs to" },
+        "directory": { "type": "string" }
+      }
+    }
+  }
+}
