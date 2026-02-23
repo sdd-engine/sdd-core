@@ -170,28 +170,28 @@ Direct access to namespaced system CLI operations. Use this when you need explic
 /sdd-run <namespace> <action> [args] [options]
 ```
 
-### Namespaces
+### Core Namespaces
 
-#### database
+#### change
 
-Manage local PostgreSQL databases:
+Manage the full change lifecycle:
 
 ```bash
-/sdd-run database setup <name>          # Start a local database
-/sdd-run database migrate <name>        # Run migrations
-/sdd-run database seed <name>           # Seed with test data
-/sdd-run database reset <name>          # Teardown + setup + migrate + seed
-/sdd-run database psql <name>           # Open psql shell
-/sdd-run database port-forward <name>   # Port forward remote database
-/sdd-run database teardown <name>       # Tear down database
+/sdd-run change create --type feature --name user-auth
+/sdd-run change status <change-id>
+/sdd-run change list
+/sdd-run change approve spec <change-id>
+/sdd-run change approve plan <change-id>
+/sdd-run change implement <change-id>
+/sdd-run change verify <change-id>
 ```
 
-#### contract
+#### init
 
-Validate API specifications:
+Initialize or upgrade an SDD project:
 
 ```bash
-/sdd-run contract validate <name>       # Validate OpenAPI spec
+/sdd-run init                           # Full 7-phase init workflow
 ```
 
 #### permissions
@@ -202,42 +202,6 @@ Configure Claude Code permissions for SDD:
 /sdd-run permissions configure          # Merge SDD recommended permissions
 ```
 
-#### config
-
-Configuration operations:
-
-```bash
-/sdd-run config generate --env <env> --component <name> --output <path>
-/sdd-run config validate [--env <env>]
-/sdd-run config diff <env-a> <env-b>
-/sdd-run config add-env <name>
-```
-
-#### workflow
-
-Workflow state operations:
-
-```bash
-/sdd-run workflow status                # Show workflow status
-/sdd-run workflow list                  # List all workflows
-```
-
-#### scaffold
-
-Component scaffolding:
-
-```bash
-/sdd-run scaffold <component-type> <name>   # Scaffold a component
-```
-
-#### domain
-
-Domain management:
-
-```bash
-/sdd-run domain glossary                # Show domain glossary
-```
-
 #### version
 
 Version information:
@@ -245,6 +209,10 @@ Version information:
 ```bash
 /sdd-run version                        # Show plugin version info
 ```
+
+### Tech Pack Namespaces
+
+Additional namespaces are provided by installed tech packs (e.g., `database`, `contract`, `config`, `scaffold`, `local-env`). Run `/sdd-run help` to see all available namespaces for your project.
 
 ### Global Options
 
@@ -282,5 +250,4 @@ Ask questions about SDD in natural language:
 
 - [Getting Started](getting-started.md) - First project tutorial
 - [Workflows](workflows.md) - How to use these commands together
-- [Agents](agents.md) - The specialized agents behind the commands
-- [Configuration Guide](config-guide.md) - Config system details
+- [Tutorial](tutorial.md) - Build a complete project step by step

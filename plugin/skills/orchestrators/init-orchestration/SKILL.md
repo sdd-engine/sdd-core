@@ -132,10 +132,10 @@ This must pass before any other checks. The agent knows the plugin's absolute pa
 1. Use the known plugin path from your plugin context. If the plugin path cannot be determined, fall back to searching `~/.claude/plugins` recursively for the SDD plugin (look for `plugin.json` marker files). If neither finds the plugin: **STOP** — display installation instructions and exit.
 2. Verify the plugin path exists and contains expected marker files (`plugin.json`)
 3. Check core system build readiness:
-   - `<plugin-root>/core/system/dist/` exists (core system built)
-   - `<plugin-root>/core/system/node_modules/` exists (dependencies installed)
+   - `<plugin-root>/system/dist/` exists (core system built)
+   - `<plugin-root>/system/node_modules/` exists (dependencies installed)
 4. If `dist/` exists: core system is ready (this is the normal case for installed plugins)
-5. If `dist/` missing but `core/system/package.json` exists: run `npm install && npm run build` in `<plugin-root>/core/system/` (development mode)
+5. If `dist/` missing but `system/package.json` exists: run `npm install && npm run build` in `<plugin-root>/system/` (development mode)
 6. If repairs fail: **STOP** — display error details and exit
 
 **This is a hard blocker.** If the plugin is not installed, not built, or not functional after repair attempts, do NOT continue to other phases.
@@ -206,7 +206,7 @@ Note: permissions written to `.claude/settings.local.json` do NOT take effect mi
 
 If this is an existing project with a version mismatch (detected in Phase 1):
 
-1. Run `<plugin-root>/core/system/system-run.sh settings reconcile` to migrate settings to the latest schema
+1. Run `<plugin-root>/system/system-run.sh settings reconcile` to migrate settings to the latest schema
 2. Display the command output (it prints a summary of changes and any directory warnings)
 3. **Skip Phase 5 and Phase 6** — structure already exists, git already initialized
 4. Jump to Phase 7 with upgrade-specific messaging
@@ -217,7 +217,7 @@ If this is an existing project with a version mismatch (detected in Phase 1):
 
 **Auto-register internal tech packs.** Scan `<plugin-root>/` for directories containing `techpack.yaml`. For each found:
 
-1. Validate the manifest: `<plugin-root>/core/system/system-run.sh tech-pack validate <tech-pack-path> --json`
+1. Validate the manifest: `<plugin-root>/system/system-run.sh tech-pack validate <tech-pack-path> --json`
 2. If valid, register in `sdd/sdd-settings.yaml` under `techpacks`:
    ```yaml
    techpacks:

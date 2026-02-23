@@ -118,7 +118,7 @@ Confirm? (yes/no)
 
 ### `change` — Manage the full change lifecycle
 
-Read and follow `./core/skills/orchestrators/change-orchestration/SKILL.md` with:
+Read and follow `./skills/orchestrators/change-orchestration/SKILL.md` with:
 
 ```yaml
 action: <action>
@@ -135,7 +135,7 @@ args: <remaining args>
 
 ### `init` — Initialize or upgrade an SDD project
 
-Read and follow `./core/skills/orchestrators/init-orchestration/SKILL.md`.
+Read and follow `./skills/orchestrators/init-orchestration/SKILL.md`.
 
 No arguments — runs the full 7-phase workflow.
 
@@ -150,7 +150,7 @@ No arguments — runs the full 7-phase workflow.
 Pass-through to system CLI:
 
 ```bash
-<plugin-root>/core/system/system-run.sh permissions configure
+<plugin-root>/system/system-run.sh permissions configure
 ```
 
 **Actions:** `configure`
@@ -185,7 +185,7 @@ EXAMPLE:
 
 ### `version` — Show installed and project plugin versions
 
-Read and follow `./core/skills/orchestrators/version-orchestration/SKILL.md`.
+Read and follow `./skills/orchestrators/version-orchestration/SKILL.md`.
 
 No arguments — displays version info.
 
@@ -218,7 +218,7 @@ To display available tech pack namespaces in the help output, read `commands.ava
 
 The following namespaces are used internally by other skills and should not be invoked directly by users. They are NOT shown in the help output:
 
-- `scaffolding` - Used by `./core/skills/orchestrators/init-orchestration/` for project setup
+- `scaffolding` - Used by `./skills/orchestrators/init-orchestration/` for project setup
 - `spec` - Used for spec validation, indexing, and snapshots
 - `settings` - Used internally by the `project-settings` skill
 - `workflow` - Workflow state management
@@ -229,11 +229,11 @@ The following namespaces are used internally by other skills and should not be i
 For core pass-through namespaces (permissions), execute:
 
 ```bash
-<plugin-root>/core/system/system-run.sh <namespace> <action> [args] [options]
+<plugin-root>/system/system-run.sh <namespace> <action> [args] [options]
 ```
 
 Where `<plugin-root>` is the plugin's absolute path, resolved by the agent from its Claude Code plugin context.
 
-For core orchestrated namespaces (change, init, version), INVOKE the corresponding orchestrator skill which may internally call `core/system/system-run.sh`.
+For core orchestrated namespaces (change, init, version), INVOKE the corresponding orchestrator skill which may internally call `system/system-run.sh`.
 
 For tech pack namespaces, route via `techpacks.routeCommand` — the tech pack handles its own system CLI dispatch.

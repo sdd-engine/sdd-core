@@ -124,7 +124,7 @@ See [External Specs](external-specs.md) for complete details.
 
 The workflow:
 
-1. **Archive** - External spec copied to `.sdd/archive/external-specs/`
+1. **Archive** - External spec copied to `sdd/archive/external-specs/`
 2. **Transform** - Classify information, identify gaps, ask clarifying questions
 3. **Discover** - Identify required components through targeted questions
 4. **Decompose** - Break into epics and features with dependencies
@@ -204,7 +204,7 @@ Epic specs require:
 - List of child changes (features) with descriptions
 - Dependencies between child changes
 
-The command creates workflow items for each child feature, tracking them in `.sdd/workflows/<workflow-id>/workflow.yaml`.
+The command creates workflow items for each child feature, tracking them in `sdd/workflows/<workflow-id>/workflow.yaml`.
 
 ### Implementation
 
@@ -235,7 +235,7 @@ Sometimes you need to go back to an earlier phase:
 ```
 
 Regression:
-- Archives discarded work to `.sdd/archive/workflow-regressions/`
+- Archives discarded work to `sdd/archive/workflow-regressions/`
 - Flags dependent items for re-review
 - Requires a reason for audit trail
 
@@ -259,46 +259,7 @@ Answer these questions or mark as assumptions:
 
 ## Configuration Workflow
 
-Use this when you need to add or modify configuration.
-
-### 1. Add Config Property
-
-Edit `components/config/envs/default/config.yaml`:
-
-```yaml
-server-task-service:
-  port: 3000
-  newProperty: value
-```
-
-### 2. Add Environment Override (if needed)
-
-Edit `components/config/envs/local/config.yaml`:
-
-```yaml
-server-task-service:
-  newProperty: localValue
-```
-
-### 3. Update Types
-
-Edit `components/config/types/server.ts`:
-
-```typescript
-export type ServerConfig = Readonly<{
-  port?: number;
-  newProperty?: string;
-}>;
-```
-
-### 4. Generate and Run
-
-```bash
-/sdd I want to generate config for local
-SDD_CONFIG_PATH=./local-config.yaml npm run dev
-```
-
-See the [Configuration Guide](config-guide.md) for complete details.
+Configuration management is provided by the active tech pack. See your tech pack's documentation for details on config generation, validation, and environment management.
 
 ## On-Demand Scaffolding
 
@@ -308,7 +269,7 @@ Components are scaffolded during implementation when first needed:
 2. Component discovery identifies the need during spec creation
 3. The component requirement is documented in SPEC.md
 4. During implementation, the component is scaffolded
-5. The component is added to `.sdd/sdd-settings.yaml`
+5. The component is added to `sdd/sdd-settings.yaml`
 
 This means your project grows organically - you only have what you've actually needed.
 
@@ -330,5 +291,4 @@ This means your project grows organically - you only have what you've actually n
 
 - [External Specs](external-specs.md) - Importing external specifications
 - [Commands](commands.md) - Full command reference
-- [Agents](agents.md) - What each agent does
-- [Configuration Guide](config-guide.md) - Config system details
+- [Tutorial](tutorial.md) - Build a complete project step by step

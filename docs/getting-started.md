@@ -50,7 +50,7 @@ After initialization, you'll have:
 
 ```
 my-app/
-├── .sdd/
+├── sdd/
 │   └── sdd-settings.yaml    # Project configuration (config component only)
 ├── specs/
 │   └── INDEX.md             # Empty spec registry
@@ -91,7 +91,7 @@ After your first feature change, you might have:
 
 ```
 my-app/
-├── .sdd/
+├── sdd/
 │   └── sdd-settings.yaml    # Now includes server component
 ├── specs/
 │   ├── INDEX.md             # Updated with your change
@@ -146,5 +146,4 @@ After creating your change spec, review and approve it:
 
 - [Workflows](workflows.md) - Learn the feature, bugfix, and refactor workflows
 - [Commands](commands.md) - Full command reference
-- [Agents](agents.md) - Understand the specialized agents
-- [Configuration Guide](config-guide.md) - How the config system works
+- [Tutorial](tutorial.md) - Build a complete project step by step

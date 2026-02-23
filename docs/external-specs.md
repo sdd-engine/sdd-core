@@ -40,10 +40,10 @@ For directories, SDD looks for an entry point (README.md, SPEC.md, or index.md).
 
 ### 1. Archive
 
-The external spec is archived via the system CLI to `.sdd/archive/external-specs/` with a datetime prefix:
+The external spec is archived via the system CLI to `sdd/archive/external-specs/` with a datetime prefix:
 
 ```
-.sdd/archive/external-specs/20260205-1430-feature-requirements.md
+sdd/archive/external-specs/20260205-1430-feature-requirements.md
 ```
 
 This is the **only** copy. The archived spec is read-only and serves as an audit trail.
@@ -230,7 +230,7 @@ Cross-section dependencies are tracked and merged at the end.
 | Sections | Overview, User Stories, Requirements | + Technical Design, API Contracts, Data Model |
 | Detail | Business-focused | Implementation-focused |
 | Source | Imported | Generated |
-| Location | `.sdd/archive/external-specs/` | `changes/YYYY/MM/DD/.../` |
+| Location | `sdd/archive/external-specs/` | `changes/YYYY/MM/DD/.../` |
 
 ## Workflow Commands
 

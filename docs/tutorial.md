@@ -314,6 +314,5 @@ Ideas for extending your restaurant app:
 ## Further Reading
 
 - [Commands Reference](commands.md)
-- [Agents Reference](agents.md)
-- [Configuration Guide](config-guide.md)
 - [Workflows](workflows.md)
+- [Getting Started](getting-started.md)
