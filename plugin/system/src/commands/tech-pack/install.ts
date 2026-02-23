@@ -279,6 +279,7 @@ export const installAllFromSettings = async (): Promise<CommandResult> => {
       if (await exists(join(techpackSubdir, 'techpack.yaml'))) {
         const validation = await validateTechPack(techpackSubdir);
         if (!validation.success) {
+          await rm(entryDir, { recursive: true, force: true }).catch(() => {});
           results.push(`  ${entry.namespace} — cloned but validation failed: ${validation.error}`);
           continue;
         }
@@ -286,6 +287,7 @@ export const installAllFromSettings = async (): Promise<CommandResult> => {
 
       results.push(`  ${entry.namespace} — installed from ${entry.repo}${entry.ref ? ` @ ${entry.ref}` : ''}`);
     } catch (err) {
+      await rm(entryDir, { recursive: true, force: true }).catch(() => {});
       results.push(`  ${entry.namespace} — clone failed: ${(err as Error).message}`);
     }
   }
