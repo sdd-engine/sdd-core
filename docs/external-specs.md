@@ -108,15 +108,7 @@ Questions are asked one at a time, with freeform responses supported.
 
 ### 5. Component Discovery
 
-Based on the classified requirements, SDD identifies needed components:
-
-| Question | If Yes → Component |
-|----------|-------------------|
-| Does data need to be persisted? | **database** |
-| Are there user actions that modify data? | **server** |
-| Do external clients need to call this system? | **contract** |
-| Is there a user interface? | **webapp** |
-| Does this need to be deployed to Kubernetes? | **helm** |
+Based on the classified requirements, SDD asks targeted questions to identify which component types (defined by the active tech pack) are needed. For example, questions about data persistence, user interfaces, and external API consumers help determine the required component set.
 
 Component discovery runs **once** for the entire external spec, not per-item.
 

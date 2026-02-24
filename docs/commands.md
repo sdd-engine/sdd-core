@@ -212,7 +212,7 @@ Version information:
 
 ### Tech Pack Namespaces
 
-Additional namespaces are provided by installed tech packs (e.g., `database`, `contract`, `config`, `scaffold`, `local-env`). Run `/sdd-run help` to see all available namespaces for your project.
+Additional namespaces are provided by installed tech packs. Run `/sdd-run help` to see all available namespaces for your project.
 
 ### Global Options
 

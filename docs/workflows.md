@@ -78,11 +78,7 @@ Now implement:
 /sdd I want to start implementing
 ```
 
-Specialized agents execute each phase of the plan:
-- `api-designer` defines contracts
-- `backend-dev` implements server logic
-- `frontend-dev` builds the UI
-- `tester` writes tests
+Specialized agents from the active tech pack execute each phase of the plan (e.g., contract design, server implementation, UI development, testing). The specific agents depend on your installed tech pack.
 
 Checkpoint commits are created after each phase for recovery.
 
@@ -108,7 +104,7 @@ When the review passes:
 /sdd I want to verify the implementation
 ```
 
-The `reviewer` agent checks that the implementation matches the spec.
+The verification agent checks that the implementation matches the spec.
 
 ## External Spec Workflow
 
@@ -265,7 +261,7 @@ Configuration management is provided by the active tech pack. See your tech pack
 
 Components are scaffolded during implementation when first needed:
 
-1. You create a feature that requires a server component
+1. You create a feature that requires a new component
 2. Component discovery identifies the need during spec creation
 3. The component requirement is documented in SPEC.md
 4. During implementation, the component is scaffolded
@@ -279,7 +275,7 @@ This means your project grows organically - you only have what you've actually n
 
 **Specs are living documents.** If requirements change during implementation, use `/sdd I want to go back to the spec phase` to regress.
 
-**Trust the agents.** Each agent has specific expertise. Let `backend-dev` handle server code, `frontend-dev` handle UI.
+**Trust the agents.** Each tech pack provides specialized agents for different implementation phases. Let them handle their domains.
 
 **Config before code.** When adding features that need configuration, add the config properties first, then implement the feature.
 

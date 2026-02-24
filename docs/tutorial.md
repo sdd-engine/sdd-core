@@ -2,6 +2,8 @@
 
 This tutorial walks you through building a restaurant management system using the SDD plugin. You'll learn the complete SDD workflow from project initialization to a running application.
 
+> **Note:** This tutorial uses the [fullstack-typescript tech pack](https://github.com/sdd-engine/sdd-fullstack-typescript-techpack) for concrete examples. The SDD core workflow (spec → plan → implement → verify) is the same regardless of tech pack. Parts 6 and some implementation details are tech-pack-specific.
+
 ---
 
 ## What You'll Build
@@ -21,7 +23,8 @@ A restaurant management system with:
    claude mcp add-plugin "https://raw.githubusercontent.com/sdd-engine/sdd-core/main/.claude-plugin/marketplace.json"
    ```
 3. **Node.js 20+** and **npm**
-4. **Docker** (for PostgreSQL)
+4. **A tech pack** installed (this tutorial uses the fullstack-typescript tech pack)
+5. Any tech-pack-specific prerequisites (e.g., Docker for database components)
 
 ---
 
@@ -125,17 +128,7 @@ Review the plan, then approve it to enable implementation:
 /sdd I want to start implementing
 ```
 
-SDD reads your spec and executes implementation phases using specialized agents:
-
-| Phase | Agent | What Happens |
-|-------|-------|--------------|
-| 1 | api-designer | Updates OpenAPI spec, generates TypeScript types |
-| 2 | backend-dev | Implements server endpoints with TDD |
-| 3 | frontend-dev | Builds React components with TDD |
-| 4 | tester | Writes integration and E2E tests |
-| 5 | reviewer | Verifies spec compliance |
-
-Each agent works autonomously based on the spec. You'll see progress as files are created and tests pass.
+SDD reads your spec and executes implementation phases using specialized agents provided by your tech pack. Each agent handles a different domain (API contracts, server logic, UI, testing, verification) and works autonomously based on the spec. You'll see progress as files are created and tests pass.
 
 ### Step 3.4: Commit the Implementation
 
@@ -183,40 +176,21 @@ SDD checks that:
 
 ## Part 6: Run the Application
 
-### Step 6.1: Start the Database
+> **Tech-pack-specific:** The commands below depend on your installed tech pack. See your tech pack's documentation for details.
 
-```
-/sdd set up the restaurant-db database
-```
+### Step 6.1: Set Up Infrastructure
 
-### Step 6.2: Run Migrations
+Use `/sdd` to set up any infrastructure components (databases, caches, etc.) that your tech pack manages.
 
-```
-/sdd run migrations for restaurant-db
-```
-
-### Step 6.3: Generate Local Config
+### Step 6.2: Generate Local Config
 
 ```
 /sdd I want to generate config for local
 ```
 
-### Step 6.4: Start the Services
+### Step 6.3: Start the Services
 
-In separate terminals:
-
-```bash
-# Terminal 1: Backend
-cd components/server && npm run dev
-
-# Terminal 2: Frontend
-cd components/webapp && npm run dev
-```
-
-### Step 6.5: Open the Application
-
-- Frontend: http://localhost:5173
-- API: http://localhost:3000
+Follow your tech pack's instructions for starting development servers.
 
 ---
 
@@ -259,13 +233,12 @@ git checkout main && git merge feature/your-feature
 | Verify feature | `/sdd I want to verify the implementation` |
 | Check status | `/sdd` |
 | Manage config | `/sdd I want to generate config for local` |
-| Database operations | `/sdd set up the database` |
 
 **The SDD workflow:**
 
 1. **Spec first** - Define what you're building before writing code
 2. **Two-stage approval** - Review spec, then review plan before implementation
-3. **Specialized agents** - Each agent handles its domain (API, backend, frontend, testing)
+3. **Specialized agents** - Tech pack agents handle their respective domains
 4. **TDD built-in** - Tests are written during implementation
 5. **Verification** - Ensure implementation matches spec
 
@@ -280,23 +253,11 @@ Install the SDD plugin:
 claude mcp add-plugin "https://raw.githubusercontent.com/sdd-engine/sdd-core/main/.claude-plugin/marketplace.json"
 ```
 
-### "Database connection refused"
-
-Start the database:
-```
-/sdd set up the restaurant-db database
-```
-
 ### "Tests failing"
 
 Check test output:
 ```bash
 npm test -- --reporter verbose
-```
-
-Ensure migrations are current:
-```
-/sdd run migrations for restaurant-db
 ```
 
 ---

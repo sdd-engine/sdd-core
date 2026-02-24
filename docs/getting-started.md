@@ -18,7 +18,8 @@ By the end of this guide, you'll have:
 
 - Claude Code CLI installed
 - SDD plugin installed from the marketplace
-- Node.js 18+, npm, git, and Docker installed
+- Node.js 18+, npm, and git installed
+- Any additional prerequisites required by your tech pack (see tech pack documentation)
 
 ## Step 1: Create Project Directory
 
@@ -69,7 +70,7 @@ my-app/
 **What's NOT created yet** (deferred until first change):
 - `changes/` directory
 - `specs/domain/` subdirectories
-- Server, webapp, database, contract components
+- Additional components (scaffolded on-demand by your tech pack)
 
 ## Step 4: Create Your First Change
 

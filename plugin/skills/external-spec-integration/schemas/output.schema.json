@@ -18,7 +18,7 @@
     },
     "archived_path": {
       "type": "string",
-      "description": "Relative path to the archived external spec in .sdd/archive/external-specs/"
+      "description": "Relative path to the archived external spec in sdd/archive/external-specs/"
     },
     "items_created": {
       "type": "array",

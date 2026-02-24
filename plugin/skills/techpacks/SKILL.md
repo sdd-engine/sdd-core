@@ -48,7 +48,7 @@ Invoke techpacks.loadAgent with:
 
 ## Active Tech Packs
 
-Read `sdd/sdd-settings.yaml` (or `.sdd/sdd-settings.yaml`) to find active tech packs:
+Read `sdd/sdd-settings.yaml` to find active tech packs:
 
 ```yaml
 techpacks:
