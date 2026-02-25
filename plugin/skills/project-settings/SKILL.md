@@ -6,7 +6,7 @@ user-invocable: false
 
 # Project Settings
 
-Single source of truth for the `sdd/sdd-settings.yaml` schema, component settings, validation rules, and directory mappings. Component types and their settings schemas are defined by the active tech pack — invoke `techpacks.listComponents` and `techpacks.routeSkills` rather than hardcoding type-specific knowledge.
+Single source of truth for the `sdd/sdd-settings.yaml` schema, component settings, validation rules, and directory mappings. Component types and their settings schemas are defined by the active tech pack — use the system CLI (`system-run.sh tech-pack list-components` and `system-run.sh tech-pack route-skills`) rather than hardcoding type-specific knowledge.
 
 ---
 
@@ -100,29 +100,27 @@ Component types and their settings schemas are defined by the active tech pack. 
 
 To discover available component types and their settings schemas:
 
-```
-Invoke techpacks.listComponents for the active tech pack namespace.
+```bash
+<plugin-root>/system/system-run.sh tech-pack list-components --namespace <ns> --json
 ```
 
 To load type-specific settings schemas during validation:
 
-```
-Invoke techpacks.routeSkills with:
-  namespace: <active-namespace>
-  phase: implementation
+```bash
+<plugin-root>/system/system-run.sh tech-pack route-skills --namespace <ns> --phase implementation --json
 ```
 
 The tech pack's `techpack-settings` skill contains the full component type definitions, settings tables per type, directory patterns, and validation rules.
 
 ## Directory Structure
 
-Component directory patterns are defined in the tech pack manifest under `components.<type>.directory_pattern`. Invoke `techpacks.listComponents` to get the directory pattern for each component type. Do NOT hardcode type→directory mappings.
+Component directory patterns are defined in the tech pack manifest under `components.<type>.directory_pattern`. Use `system-run.sh tech-pack list-components --namespace <ns> --json` to get the directory pattern for each component type. Do NOT hardcode type→directory mappings.
 
 ## Validation Rules
 
 - **Config mandatory singleton**: Every project must have exactly one config component (if the tech pack defines a `config` component type)
 - **Component references**: Cross-references between components (e.g., `depends_on`) must reference existing component instances
-- **Tech-pack-specific validation**: Additional validation rules are provided by the tech pack. Invoke `techpacks.routeSkills(phase: implementation)` for component-type-specific settings schemas.
+- **Tech-pack-specific validation**: Additional validation rules are provided by the tech pack. Use `system-run.sh tech-pack route-skills --namespace <ns> --phase implementation --json` for component-type-specific settings schemas.
 
 ## Operations
 

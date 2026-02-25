@@ -129,9 +129,9 @@ If SPEC.md says a component is needed but it's not in `sdd-settings.yaml` yet, t
 1. **Read required components** from SPEC.md `## Components` section
 2. **Reference existing components** from `sdd/sdd-settings.yaml` for details
 3. **Check for new components:** If SPEC.md `## Components` lists new components not yet in `sdd-settings.yaml`, prepend a "Phase 1: Component Scaffolding" phase and shift subsequent phase numbers. If all components already exist, omit the scaffolding phase. This applies to all change types (feature, refactor).
-4. **Order by dependency graph:** Invoke `techpacks.dependencyOrder` for the active tech pack namespace to get the topological order of component types. Use this order for phase sequencing.
-5. **Assign agents and standards:** Invoke `techpacks.readManifest` and read `components.<type>.agent` for each affected component type. For standards, invoke `techpacks.routeSkills(phase: plan-generation, component_type: <type>)` — the skills router returns the relevant standards for each component.
-6. **Add final phases:** Read `lifecycle.testing.agent` and `lifecycle.verification.agent` from the manifest for the testing and review phases.
+4. **Order by dependency graph:** Get topological order via `<plugin-root>/system/system-run.sh tech-pack dependency-order --namespace <ns> --json`. Use this order for phase sequencing.
+5. **Assign agents and standards:** Get component agents via `<plugin-root>/system/system-run.sh tech-pack list-components --namespace <ns> --json` (read `agent` field for each type). For standards, load via `<plugin-root>/system/system-run.sh tech-pack route-skills --namespace <ns> --phase planning --json` — the CLI returns the relevant standards skills for each phase.
+6. **Add final phases:** Get verification/testing agents via `<plugin-root>/system/system-run.sh tech-pack route-skills --namespace <ns> --phase verification --json` (returns agents array for the testing and review phases).
 
 ### Testing Strategy
 
@@ -226,8 +226,8 @@ sdd_version: [X.Y.Z]
 
 <!-- INCLUDE Phase 1 ONLY if SPEC.md lists new components not in sdd-settings.yaml. OMIT entirely if all components already exist. -->
 ### Phase 1: Component Scaffolding (if new components)
-**Agent:** Read the agent assigned to the scaffolding-related component type from the manifest via `techpacks.readManifest`. Use the `components.<type>.agent` field.
-**Standards:** Invoke `techpacks.routeSkills(phase: project-scaffolding)` to load scaffolding standards.
+**Agent:** Get component agents via `system-run.sh tech-pack list-components --namespace <ns> --json` (read `agent` field for the scaffolding-related component type).
+**Standards:** Load scaffolding standards via `system-run.sh tech-pack route-skills --namespace <ns> --phase implementation --json`.
 
 **Outcome:** New component directories and boilerplate created, `sdd-settings.yaml` updated
 
@@ -239,9 +239,9 @@ sdd_version: [X.Y.Z]
 
 <!-- Repeat for each affected component in dependency order. Read agent and standards from manifest. -->
 
-**Agent:** Read `components.<type>.agent` from the tech pack manifest via `techpacks.readManifest`.
+**Agent:** Get component agents via `system-run.sh tech-pack list-components --namespace <ns> --json` (read `agent` field for this component type).
 **Component:** `<component-type>`
-**Standards:** Invoke `techpacks.routeSkills(phase: implementation, component_type: <type>)` to load relevant standards.
+**Standards:** Load implementation standards via `system-run.sh tech-pack route-skills --namespace <ns> --phase implementation --json`.
 
 **Outcome:** Component functionality complete per SPEC.md
 
@@ -250,8 +250,8 @@ sdd_version: [X.Y.Z]
 - Unit tests passing (if applicable)
 
 ### Phase N+1: Integration & E2E Testing
-**Agent:** Read `lifecycle.testing.agent` from the manifest.
-**Standards:** Invoke `techpacks.routeSkills(phase: testing)`.
+**Agent:** Get testing agent from `system-run.sh tech-pack route-skills --namespace <ns> --phase verification --json` (agents array).
+**Standards:** Load testing standards from the same route-skills response (orchestrator_skills array).
 
 **Outcome:** All integration and E2E tests passing
 
@@ -259,8 +259,8 @@ sdd_version: [X.Y.Z]
 - Test suites passing
 
 ### Phase N+2: Review
-**Agent:** Read `lifecycle.verification.agent` from the manifest.
-**Standards:** Invoke `techpacks.routeSkills(phase: verification)`.
+**Agent:** Get verification agent from `system-run.sh tech-pack route-skills --namespace <ns> --phase verification --json` (agents array).
+**Standards:** Load verification standards from the same route-skills response (orchestrator_skills array).
 
 **Outcome:** Implementation verified against SPEC.md and standards
 
@@ -318,8 +318,8 @@ sdd_version: [X.Y.Z]
 ## Phases
 
 ### Phase 1: Investigation
-**Agent:** Read `components.<type>.agent` from the tech pack manifest via `techpacks.readManifest` (based on affected component type).
-**Standards:** Invoke `techpacks.routeSkills(phase: implementation, component_type: <type>)`.
+**Agent:** Get component agents via `system-run.sh tech-pack list-components --namespace <ns> --json` (read `agent` field for the affected component type).
+**Standards:** Load implementation standards via `system-run.sh tech-pack route-skills --namespace <ns> --phase implementation --json`.
 
 **Outcome:** Root cause identified and documented in SPEC.md
 
@@ -328,8 +328,8 @@ sdd_version: [X.Y.Z]
 - Clear reproduction steps
 
 ### Phase 2: Implementation
-**Agent:** Read `components.<type>.agent` from the tech pack manifest via `techpacks.readManifest`.
-**Standards:** Invoke `techpacks.routeSkills(phase: implementation, component_type: <type>)`.
+**Agent:** Get component agents via `system-run.sh tech-pack list-components --namespace <ns> --json` (read `agent` field for the affected component type).
+**Standards:** Load implementation standards via `system-run.sh tech-pack route-skills --namespace <ns> --phase implementation --json`.
 
 **Outcome:** Bug fixed with regression test per SPEC.md
 
@@ -338,8 +338,8 @@ sdd_version: [X.Y.Z]
 - Regression test passing
 
 ### Phase 3: Integration Testing
-**Agent:** Read `lifecycle.testing.agent` from the manifest.
-**Standards:** Invoke `techpacks.routeSkills(phase: testing)`.
+**Agent:** Get testing agent from `system-run.sh tech-pack route-skills --namespace <ns> --phase verification --json` (agents array).
+**Standards:** Load testing standards from the same route-skills response (orchestrator_skills array).
 
 **Outcome:** All tests passing, no regressions
 
@@ -347,8 +347,8 @@ sdd_version: [X.Y.Z]
 - All tests passing
 
 ### Phase 4: Review
-**Agent:** Read `lifecycle.verification.agent` from the manifest.
-**Standards:** Invoke `techpacks.routeSkills(phase: verification)`.
+**Agent:** Get verification agent from `system-run.sh tech-pack route-skills --namespace <ns> --phase verification --json` (agents array).
+**Standards:** Load verification standards from the same route-skills response (orchestrator_skills array).
 
 **Outcome:** Fix verified against SPEC.md acceptance criteria and standards
 
@@ -398,8 +398,8 @@ sdd_version: [X.Y.Z]
 ## Phases
 
 ### Phase 1: Preparation
-**Agent:** Read `components.<type>.agent` from the tech pack manifest via `techpacks.readManifest` (based on affected component type).
-**Standards:** Invoke `techpacks.routeSkills(phase: implementation, component_type: <type>)`.
+**Agent:** Get component agents via `system-run.sh tech-pack list-components --namespace <ns> --json` (read `agent` field for the affected component type).
+**Standards:** Load implementation standards via `system-run.sh tech-pack route-skills --namespace <ns> --phase implementation --json`.
 
 **Outcome:** Test coverage verified, affected areas documented per SPEC.md
 
@@ -408,8 +408,8 @@ sdd_version: [X.Y.Z]
 - Affected area documentation
 
 ### Phase 2: Implementation
-**Agent:** Read `components.<type>.agent` from the tech pack manifest via `techpacks.readManifest`.
-**Standards:** Invoke `techpacks.routeSkills(phase: implementation, component_type: <type>)`.
+**Agent:** Get component agents via `system-run.sh tech-pack list-components --namespace <ns> --json` (read `agent` field for the affected component type).
+**Standards:** Load implementation standards via `system-run.sh tech-pack route-skills --namespace <ns> --phase implementation --json`.
 
 **Outcome:** Refactoring complete per SPEC.md following component standards, all tests passing
 
@@ -418,8 +418,8 @@ sdd_version: [X.Y.Z]
 - All existing tests passing
 
 ### Phase 3: Integration Testing
-**Agent:** Read `lifecycle.testing.agent` from the manifest.
-**Standards:** Invoke `techpacks.routeSkills(phase: testing)`.
+**Agent:** Get testing agent from `system-run.sh tech-pack route-skills --namespace <ns> --phase verification --json` (agents array).
+**Standards:** Load testing standards from the same route-skills response (orchestrator_skills array).
 
 **Outcome:** No behavior changes, all tests passing
 
@@ -428,8 +428,8 @@ sdd_version: [X.Y.Z]
 - No behavior changes verified
 
 ### Phase 4: Review
-**Agent:** Read `lifecycle.verification.agent` from the manifest.
-**Standards:** Invoke `techpacks.routeSkills(phase: verification)`.
+**Agent:** Get verification agent from `system-run.sh tech-pack route-skills --namespace <ns> --phase verification --json` (agents array).
+**Standards:** Load verification standards from the same route-skills response (orchestrator_skills array).
 
 **Outcome:** Refactoring goals verified, no regressions, standards compliance confirmed
 

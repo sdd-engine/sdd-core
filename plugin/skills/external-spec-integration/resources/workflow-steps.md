@@ -219,7 +219,7 @@ Reorder items for API-first implementation:
 
 ```yaml
 recommended_order:
-  # Order determined by techpacks.dependencyOrder for the active tech pack
+  # Order determined by: system-run.sh tech-pack dependency-order --namespace <ns>
   1. <component-type ordered by dependency>
   2. <component-type ordered by dependency>
   3. ...

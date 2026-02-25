@@ -248,4 +248,4 @@ The project scaffolding CLI:
 
 ## Related Skills
 
-Component scaffolding skills are provided by the active tech pack. Invoke `techpacks.routeSkills(phase: project-scaffolding)` to load the tech-specific scaffolding orchestration skill. For each component type, the manifest's `components.<type>.scaffolding` field points to the scaffolding skill. Use `techpacks.resolvePath` to get absolute paths for template directories passed to the scaffolding engine.
+Component scaffolding skills are provided by the active tech pack. Load scaffolding orchestration via `<plugin-root>/system/system-run.sh tech-pack route-skills --namespace <ns> --phase implementation --json`. For each component type, get the scaffolding skill name from `<plugin-root>/system/system-run.sh tech-pack list-components --namespace <ns> --json` (the `scaffolding` field). Use `<plugin-root>/system/system-run.sh tech-pack resolve-path --namespace <ns> --path <relative-path> --json` to get absolute paths for template directories passed to the scaffolding engine.

@@ -147,9 +147,9 @@ Create `changes/YYYY/MM/DD/<name>/PLAN.md` using dynamic phase generation.
 
 1. **Read project components** from `sdd/sdd-settings.yaml`
 2. **Filter to affected components** (from SPEC.md `affected_components`)
-3. **Order by dependency graph:** Invoke `techpacks.dependencyOrder` for the active tech pack to get the topological order of component types. Filter to only affected components while preserving dependency order.
-4. **Assign agents:** Invoke `techpacks.readManifest` and read `components.<type>.agent` for each affected component type. For standards, invoke `techpacks.routeSkills(phase: plan-generation, component_type: <type>)`.
-5. **Add final phases:** Read `lifecycle.testing.agent` and `lifecycle.verification.agent` from the manifest.
+3. **Order by dependency graph:** Get topological order via `<plugin-root>/system/system-run.sh tech-pack dependency-order --namespace <ns> --json`. Filter to only affected components while preserving dependency order.
+4. **Assign agents:** Get component agents via `<plugin-root>/system/system-run.sh tech-pack list-components --namespace <ns> --json` (read `agent` field for each type). For standards, load via `<plugin-root>/system/system-run.sh tech-pack route-skills --namespace <ns> --phase planning --json`.
+5. **Add final phases:** Get verification/testing agents via `<plugin-root>/system/system-run.sh tech-pack route-skills --namespace <ns> --phase verification --json` (returns agents array).
 
 #### Plan Frontmatter
 

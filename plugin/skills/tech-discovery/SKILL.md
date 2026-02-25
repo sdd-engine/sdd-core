@@ -42,10 +42,8 @@ Accepts change name, type, existing components, and optionally classified requir
 
 Before asking discovery questions, load the tech-specific discovery knowledge:
 
-```
-Invoke techpacks.routeSkills with:
-  namespace: <active-namespace>
-  phase: component-discovery
+```bash
+<plugin-root>/system/system-run.sh tech-pack route-skills --namespace <active-namespace> --phase spec --json
 ```
 
 This loads component types, descriptions, discovery question sets, and settings schemas from the active tech pack.
@@ -93,17 +91,23 @@ Component settings from this output flow into the SPEC.md `## Components` sectio
 ## Skills
 
 Use the following skills for reference:
-- `techpacks` — Gateway for all tech-pack interactions. Use `techpacks.listComponents` to get available component types and `techpacks.routeSkills(phase: component-discovery)` to load tech-specific discovery knowledge.
+- **Tech pack CLI** — Use `system-run.sh tech-pack list-components --namespace <ns> --json` to get available component types and `system-run.sh tech-pack route-skills --namespace <ns> --phase spec --json` to load tech-specific discovery knowledge.
 
 ## Available Components
 
-Invoke `techpacks.listComponents` for the active tech pack namespace to get the full list of available component types, their descriptions, directory patterns, and whether they support multiple instances. Do NOT hardcode component types — the tech pack manifest is the source of truth.
+Get the full list of available component types via the system CLI:
+
+```bash
+<plugin-root>/system/system-run.sh tech-pack list-components --namespace <ns> --json
+```
+
+This returns descriptions, directory patterns, and whether types support multiple instances. Do NOT hardcode component types — the tech pack manifest is the source of truth.
 
 ## Workflow
 
 ### Step 1: Analyze Requirements
 
-Map discovered information to component types from the tech pack. Use `techpacks.routeSkills(phase: component-discovery)` to load the tech-specific discovery knowledge that maps requirements to component types and settings.
+Map discovered information to component types from the tech pack. Use `system-run.sh tech-pack route-skills --namespace <ns> --phase spec --json` to load the tech-specific discovery knowledge that maps requirements to component types and settings.
 
 ### Step 2: Present Recommendation with Settings
 
@@ -134,7 +138,7 @@ The tech pack's discovery knowledge provides guidance on when to split vs consol
 
 ### Step 5: Settings Validation
 
-Before returning, validate discovered configuration against the tech pack's cross-reference rules. Invoke `techpacks.routeSkills(phase: component-discovery)` to get the validation rules.
+Before returning, validate discovered configuration against the tech pack's cross-reference rules. Use `system-run.sh tech-pack route-skills --namespace <ns> --phase spec --json` to get the validation rules.
 
 ### Step 6: Return Configuration
 

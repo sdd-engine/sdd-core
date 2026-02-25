@@ -233,10 +233,8 @@ If this is an existing project with a version mismatch (detected in Phase 1):
 
 After registration, delegate tool/environment checks to each registered tech pack:
 
-```yaml
-INVOKE techpacks.routeCommand with:
-  namespace: <tech-pack-namespace>
-  command: check-prerequisites
+```bash
+<plugin-root>/system/system-run.sh tech-pack route-command --namespace <tech-pack-namespace> --command check-prerequisites --action run --json
 ```
 
 Each tech pack defines its own required tools and verification logic. Display results per tech pack:

@@ -199,18 +199,16 @@ No arguments — displays version info.
 
 When a namespace is not recognized as a core namespace, route it to the active tech pack's command router:
 
-```yaml
-INVOKE techpacks.routeCommand with:
-  command: <namespace>
-  args: [<action>, <remaining args>]
+```bash
+<plugin-root>/system/system-run.sh tech-pack route-command --namespace <ns> --command <namespace> --action <action> --json
 ```
 
-The tech pack command router handles:
-- Argument validation and sub-help display
-- Destructive action confirmation
-- Dispatching to the appropriate tech pack skill or system CLI
+The route-command response includes the handler (skill or system CLI path), argument schema, and destructive flag. Use the response to:
+- Validate arguments against the action's args schema
+- Show destructive action confirmation if `destructive: true`
+- Dispatch to the handler skill or system CLI
 
-To display available tech pack namespaces in the help output, read `commands.available` from the tech pack manifest via `techpacks.readManifest`.
+To display available tech pack namespaces in the help output, use `<plugin-root>/system/system-run.sh tech-pack info --namespace <ns> --json` which returns the commands list.
 
 ---
 
@@ -236,4 +234,4 @@ Where `<plugin-root>` is the plugin's absolute path, resolved by the agent from 
 
 For core orchestrated namespaces (change, init, version), INVOKE the corresponding orchestrator skill which may internally call `system/system-run.sh`.
 
-For tech pack namespaces, route via `techpacks.routeCommand` — the tech pack handles its own system CLI dispatch.
+For tech pack namespaces, route via `system-run.sh tech-pack route-command` — the response tells you which handler to invoke.

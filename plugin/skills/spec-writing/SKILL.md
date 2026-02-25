@@ -66,6 +66,16 @@ Always use Given/When/Then:
 - [ ] **AC1:** Given [precondition], when [action], then [expected result]
 ```
 
+## Tech Pack Standards
+
+Before writing a spec, load tech-pack-specific speccing standards:
+
+```bash
+<plugin-root>/system/system-run.sh tech-pack route-skills --namespace <ns> --phase spec --json
+```
+
+This returns orchestrator skills (e.g., speccing-standards) that provide component type selection guidance, dependency rules, and singleton vs multi-instance decisions specific to the active tech pack.
+
 ## Resource Files
 
 For detailed guidance, read these on-demand:

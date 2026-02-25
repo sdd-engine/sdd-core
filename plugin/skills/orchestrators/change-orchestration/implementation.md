@@ -35,9 +35,9 @@ From SPEC.md `## Domain Updates` section:
 For each phase in PLAN.md:
 1. Read phase details
 2. Determine the agent for this phase's component type:
-   - Read `components.<type>.agent` from tech pack manifest via `techpacks.readManifest`
-   - Load the agent via `techpacks.loadAgent(agent_name)`
-3. Invoke the loaded agent with `techpacks.routeSkills(phase: implementation, component_type: <type>)` for standards
+   - Get component metadata: `<plugin-root>/system/system-run.sh tech-pack list-components --namespace <ns> --json` (read `agent` field for the component type)
+   - Load the agent: `<plugin-root>/system/system-run.sh tech-pack load-agent --namespace <ns> --agent <agent-name> --json`
+3. Load implementation standards: `<plugin-root>/system/system-run.sh tech-pack route-skills --namespace <ns> --phase implementation --json`
 4. Verify deliverables
 5. Update PLAN.md state
 6. Create checkpoint commit
@@ -79,7 +79,7 @@ Step 2: Executing Domain Updates...
 Step 3: Beginning implementation phases...
 
 Phase 1: API Contract
-  Agent: <loaded via techpacks.loadAgent from manifest>
+  Agent: <loaded via system-run.sh tech-pack load-agent>
   [Implementation progress...]
   Phase 1 complete
 

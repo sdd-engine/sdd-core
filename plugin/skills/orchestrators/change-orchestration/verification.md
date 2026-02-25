@@ -62,8 +62,8 @@ Validating specs traceability...
 
 For each component type affected by the change, verify the implementation follows the corresponding standards. Load standards via the tech pack:
 
-1. Invoke `techpacks.routeSkills(phase: verification, component_type: <type>)` for each affected component type — this loads the relevant standards into context
-2. Read `lifecycle.verification.agent` from the manifest to determine the verification agent
+1. Load verification standards: `<plugin-root>/system/system-run.sh tech-pack route-skills --namespace <ns> --phase verification --json` — this returns the relevant standards skills and agents for the verification phase
+2. The verification agent is included in the `agents` array returned by the route-skills command
 3. Review the implementation against the loaded standards
 4. Flag any violations in the verification report
 
@@ -94,7 +94,7 @@ For each component type affected by the change, verify the implementation follow
 ### Standards Compliance
 | Standard | Status | Notes |
 |----------|--------|-------|
-| [standards loaded via techpacks.routeSkills] | PASS/FAIL | Details |
+| [standards loaded via system-run.sh tech-pack route-skills] | PASS/FAIL | Details |
 
 ### Verdict: PASS
 ```
