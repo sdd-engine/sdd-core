@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://sdd.dev/schemas/techpack.json",
-  "title": "Tech Pack Manifest",
-  "description": "Declares everything a tech pack offers to the SDD core.",
+  "title": "Tech Pack Manifest v2",
+  "description": "Self-describing tech pack manifest. Declares skills, agents, components, phases, help, and commands.",
   "type": "object",
-  "required": ["techpack", "components", "commands", "skills"],
+  "required": ["techpack", "skills", "agents", "components", "phases", "help", "commands"],
   "additionalProperties": false,
   "properties": {
     "techpack": {
@@ -20,75 +20,105 @@
         "system_path":     { "type": "string", "description": "Relative path to system CLI entrypoint" }
       }
     },
+    "skills": {
+      "type": "object",
+      "description": "Skill registry — name to relative path mapping.",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string" }
+    },
+    "agents": {
+      "type": "object",
+      "description": "Agent registry — name to relative path mapping.",
+      "additionalProperties": { "type": "string" }
+    },
     "components": {
       "type": "object",
+      "description": "Component types this techpack can build.",
       "minProperties": 1,
-      "additionalProperties": {
-        "$ref": "#/$defs/component"
+      "additionalProperties": { "$ref": "#/$defs/component" }
+    },
+    "phases": {
+      "type": "object",
+      "description": "Lifecycle phase contributions. Core owns phase definitions; techpack contributes skills and agents.",
+      "additionalProperties": { "$ref": "#/$defs/phase" }
+    },
+    "help": {
+      "type": "object",
+      "required": ["capabilities", "content"],
+      "additionalProperties": false,
+      "properties": {
+        "capabilities": { "type": "string", "description": "Skill name for capabilities (loaded by /sdd)" },
+        "content":      { "type": "string", "description": "Skill name for help content (loaded by /sdd-help)" }
       }
     },
     "commands": {
       "type": "object",
-      "required": ["router", "available"],
-      "additionalProperties": false,
-      "properties": {
-        "router": { "type": "string", "description": "Relative path to command router skill" },
-        "available": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/command" }
-        }
-      }
-    },
-    "skills": {
-      "type": "object",
-      "required": ["router"],
-      "additionalProperties": false,
-      "properties": {
-        "router": { "type": "string", "description": "Relative path to skills router skill" }
-      }
-    },
-    "lifecycle": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "verification": { "$ref": "#/$defs/lifecycle_phase" },
-        "testing":      { "$ref": "#/$defs/lifecycle_phase" }
-      }
-    },
-    "documentation": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "capabilities": { "type": "string", "description": "Relative path to capabilities skill" },
-        "help":         { "type": "string", "description": "Relative path to help content skill" }
-      }
+      "description": "Namespaced command definitions exposed via /sdd-run.",
+      "additionalProperties": { "$ref": "#/$defs/command_namespace" }
     }
   },
   "$defs": {
     "component": {
       "type": "object",
-      "required": ["description", "directory_pattern", "depends_on", "scaffolding"],
+      "required": ["description", "directory_pattern", "depends_on", "scaffolding", "skills"],
       "additionalProperties": false,
       "properties": {
+        "singleton":         { "type": "boolean", "description": "True for single-instance components, false for multi-instance." },
         "description":       { "type": "string" },
         "directory_pattern":  { "type": "string" },
         "depends_on": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "Component type keys this component depends on"
+          "description": "Component type keys this component depends on."
         },
-        "scaffolding": { "type": "string", "description": "Relative path to scaffolding skill" },
-        "agent":       { "$ref": "#/$defs/agent_ref", "description": "Agent assigned to this component type" }
+        "scaffolding": { "type": "string", "description": "Skill name from the skills registry." },
+        "skills": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Skill names from the skills registry."
+        },
+        "agent": { "type": "string", "description": "Agent name from the agents registry." }
       }
     },
-    "command": {
+    "phase": {
       "type": "object",
-      "required": ["name", "description", "user_facing"],
+      "required": ["orchestrator_skills"],
       "additionalProperties": false,
       "properties": {
-        "name":        { "type": "string" },
+        "orchestrator_skills": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Skill names from the skills registry for this phase."
+        },
+        "agents": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Agent names from the agents registry for this phase."
+        }
+      }
+    },
+    "command_namespace": {
+      "type": "object",
+      "required": ["handler", "actions"],
+      "additionalProperties": false,
+      "properties": {
+        "handler": { "type": "string", "enum": ["system", "skill"], "description": "Dispatch type." },
+        "skill":   { "type": "string", "description": "Skill name for handler: skill commands." },
+        "actions": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/command_action" }
+        }
+      }
+    },
+    "command_action": {
+      "type": "object",
+      "required": ["description", "public"],
+      "additionalProperties": false,
+      "properties": {
         "description": { "type": "string" },
-        "user_facing": { "type": "boolean" },
+        "public":      { "type": "boolean", "description": "True if user-facing." },
+        "destructive": { "type": "boolean", "description": "True if action has destructive side effects." },
         "args": {
           "type": "object",
           "additionalProperties": { "$ref": "#/$defs/command_arg" }
@@ -104,22 +134,6 @@
         "mandatory":   { "type": "boolean" },
         "description": { "type": "string" },
         "default":     {}
-      }
-    },
-    "lifecycle_phase": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "agent": { "$ref": "#/$defs/agent_ref" }
-      }
-    },
-    "agent_ref": {
-      "type": "object",
-      "required": ["name", "path"],
-      "additionalProperties": false,
-      "properties": {
-        "name": { "type": "string", "description": "Agent name as registered with Claude Code (matches frontmatter name)" },
-        "path": { "type": "string", "description": "Relative path to agent .md file within the tech pack" }
       }
     }
   }
