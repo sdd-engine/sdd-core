@@ -68,12 +68,19 @@ Namespaces:
   archive       Archive file management
     store       Archive a file or directory to sdd/archive/<type>/
 
-  tech-pack     Tech pack management
-    validate    Validate a tech pack manifest
-    list        List installed tech packs
-    info        Show tech pack details
-    install     Register a tech pack
-    remove      Unregister a tech pack
+  tech-pack         Tech pack management
+    validate        Validate a tech pack manifest
+    list            List installed tech packs
+    info            Show tech pack details
+    install         Register a tech pack
+    remove          Unregister a tech pack
+    resolve-path    Resolve manifest-relative path to project-relative path
+    list-components List component type metadata
+    dependency-order Topological sort of component dependencies
+    route-skills    Look up phase/component skills and agents
+    route-command   Look up command handler and action info
+    load-skill      Read skill file with placeholder resolution
+    load-agent      Agent metadata and skill resolution
 
   agent         Agent metadata extraction
     frontmatter Extract structured metadata from agent .md file
