@@ -200,7 +200,7 @@ No arguments — displays version info.
 When a namespace is not recognized as a core namespace, route it to the active tech pack's command router:
 
 ```bash
-<plugin-root>/system/system-run.sh tech-pack route-command --namespace <ns> --command <namespace> --action <action> --json
+<plugin-root>/system/system-run.sh tech-pack route-command --namespace <tech-pack-ns> --command <command-name> --action <action> --json
 ```
 
 The route-command response includes the handler (skill or system CLI path), argument schema, and destructive flag. Use the response to:
