@@ -65,7 +65,7 @@ Have a product spec, PRD, or requirements doc? SDD can import it, break it into 
 Active tech packs extend SDD with additional commands for infrastructure, configuration, databases, and more. To discover what's available:
 
 ```bash
-system-run.sh tech-pack load-skill --namespace <tech-pack-namespace> --skill help-content
+<plugin-root>/system/system-run.sh tech-pack load-skill --namespace <tech-pack-namespace> --skill help-content
 ```
 
 The tech pack's help content describes its specific commands and capabilities.

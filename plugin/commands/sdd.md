@@ -142,7 +142,7 @@ Interpret the natural language request and map it to a `/sdd-run` command.
 Additional intent mappings are provided by active tech packs. Load them via:
 
 ```bash
-system-run.sh tech-pack load-skill --namespace <tech-pack-namespace> --skill capabilities
+<plugin-root>/system/system-run.sh tech-pack load-skill --namespace <tech-pack-namespace> --skill capabilities
 ```
 
 The capabilities skill returns tech-pack-specific intent→command mappings (e.g., database setup, config generation, local environment management).

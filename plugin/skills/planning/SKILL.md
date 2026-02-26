@@ -138,8 +138,8 @@ If SPEC.md says a component is needed but it's not in `sdd-settings.yaml` yet, t
 | Test Type | When | Agent |
 |-----------|------|-------|
 | Unit tests | During implementation (TDD) | Component's assigned agent (from manifest) |
-| Integration tests | After all implementation phases | `lifecycle.testing.agent` from manifest |
-| E2E tests | After all implementation phases | `lifecycle.testing.agent` from manifest |
+| Integration tests | After all implementation phases | Testing agent from `phases.verification.agents` (via route-skills) |
+| E2E tests | After all implementation phases | Testing agent from `phases.verification.agents` (via route-skills) |
 
 ## Phase Structure
 
