@@ -4,6 +4,28 @@ All notable changes to the SDD Core plugin.
 
 ---
 
+## [0.2.0] - 2026-02-26
+
+### Added
+
+- **7 new tech-pack CLI commands**: resolve-path, list-components, dependency-order, route-skills, route-command, load-skill, load-agent — deterministic replacements for the LLM-interpreted techpacks gateway
+- **Shared v2 manifest utility** (`manifest.ts`): typed `V2Manifest` interface, `resolveTechPackDir()`, `readV2Manifest()` used by all namespace-based commands
+- **Registry cross-reference validation**: `validate.ts` now checks that all name references in components, phases, help, and commands resolve to skills/agents registries
+
+### Changed
+
+- **techpack.schema.json**: Rewritten for v2 manifest format — flat skills/agents registries, phases (replacing lifecycle), nested command namespaces with actions
+- **validate.ts**: Rewritten path validation for registry-based references, added `validateRegistryRefs()`
+- **info.ts**: Refactored to use shared `readV2Manifest()`, returns v2 fields (skills_count, agents_count, phases, command namespaces, action_count)
+- **13 skill/command files migrated**: All `techpacks.*` gateway invocations replaced with `system-run.sh tech-pack <action>` CLI commands, phase names remapped (component-discovery→spec, plan-generation→planning, testing→verification)
+
+### Removed
+
+- **techpacks gateway skill** (`SKILL.md`, `operations.md`): LLM-interpreted gateway replaced by deterministic CLI
+- **3 gateway schemas**: command-router-context, declared-actions-response, skills-router-context — no longer needed with CLI args
+
+---
+
 ## [0.1.0] - 2026-02-23
 
 ### Added
